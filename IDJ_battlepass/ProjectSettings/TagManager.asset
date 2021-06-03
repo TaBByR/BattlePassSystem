@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - manager
+  - TierImage
+  - TierText
   layers:
   - Default
   - TransparentFX

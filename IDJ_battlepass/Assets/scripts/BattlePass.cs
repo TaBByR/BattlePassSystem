@@ -1,41 +1,75 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class BattlePass : MonoBehaviour
 {
     public int amountOfTiers;
-    //public Date
-
-    private List<Tier> tiers = new List<Tier>();
+    public bool generateWithRewards;
+    public Sprite[] rewards;
+    
+    public static int page = 0;
     private List<MissionCollection> missionCollections = new List<MissionCollection>();
     private int playerPoints;
 
     private void Start()
     {
         playerPoints = 0;
+        if (generateWithRewards)
+        {
+            GenerateTiers(rewards);
+            PopulatePass();
+        }
+        else
+        {
+            GenerateTiers();
+            PopulatePass();
+        }
     }
 
     private void GenerateTiers()
     {
         for (int i = 0; i < amountOfTiers; i++)
         {
-            tiers.Add(new Tier(i+1));
+            new Tier(i+1);
         }
     }
 
-    public void SetTierImage(GameObject obj, int tier)
+    private void GenerateTiers(Sprite[] r)
     {
-        tiers[tier].reward = obj;
+        for (int i = 0; i < amountOfTiers; i++)
+        {
+            new Tier(i + 1, r[i]);
+        }
     }
 
-    public Tier GetTier(int tier)
+    private void PopulatePass()
     {
-        return tiers[tier];
+        GameObject[] TierImage = GameObject.FindGameObjectsWithTag("TierImage");
+        GameObject[] TierText = GameObject.FindGameObjectsWithTag("TierText");
+
+        for (int i = 0; i < TierText.Length; i++)
+        {
+            TierText[i].GetComponent<TextMeshProUGUI>().text = Tier.tiers[i + page * 5].tierNumber.ToString();
+            TierImage[i].GetComponent<Image>().sprite = Tier.tiers[i + page * 5].reward;
+        }
+
     }
 
-    public void AddPlayerPoints(int points)
+    public void NextPage()
     {
-        playerPoints += points;
+        page++;
+        PopulatePass();
+    }
+
+    public void PreviousPage()
+    {
+        if (page > 0)
+        {
+            page--;
+            PopulatePass();
+        }
     }
 }

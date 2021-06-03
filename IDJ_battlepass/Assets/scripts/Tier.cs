@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Tier
 {
-    public GameObject _reward;
+    public Sprite _reward;
     private int _tierNumber;
+    public static List<Tier> tiers = new List<Tier>();
 
-    public GameObject reward
+    public Sprite reward
     {
         get => _reward;
         set
@@ -16,14 +17,21 @@ public class Tier
         }
     }
 
+    public int tierNumber
+    {
+        get => _tierNumber;
+    }
+
     public Tier(int tierNumber)
     {
         this._tierNumber = tierNumber;
+        tiers.Add(this);
     }
 
-    public Tier(int tierNumber, GameObject reward)
+    public Tier(int tierNumber, Sprite reward)
     {
         this._tierNumber = tierNumber;
         this.reward = reward;
+        tiers.Add(this);
     }
 }
