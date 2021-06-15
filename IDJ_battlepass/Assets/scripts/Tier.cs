@@ -4,34 +4,50 @@ using UnityEngine;
 
 public class Tier
 {
-    public Sprite _reward;
     private int _tierNumber;
-    public static List<Tier> tiers = new List<Tier>();
-
-    public Sprite reward
-    {
-        get => _reward;
-        set
-        {
-            _reward = value;
-        }
-    }
+    private bool _isCompleted;
+    private int _pointsRequired;
+    public Reward[] rewards;
 
     public int tierNumber
     {
         get => _tierNumber;
+        set
+        {
+            _tierNumber = value;
+
+        }
     }
 
-    public Tier(int tierNumber)
+    public int pointsRequired
     {
-        this._tierNumber = tierNumber;
-        tiers.Add(this);
+        get => _pointsRequired;
+        set
+        {
+            _pointsRequired = value;
+        }
+    }
+    public bool isCompleted
+    {
+        get => _isCompleted;
+        set
+        {
+            _isCompleted = value;
+        }
     }
 
-    public Tier(int tierNumber, Sprite reward)
+    public Tier(int tierNumber, int pointsRequired)
     {
+        this.pointsRequired = pointsRequired;
         this._tierNumber = tierNumber;
-        this.reward = reward;
-        tiers.Add(this);
+        this.isCompleted = false;
+    }
+
+    public Tier(int tierNumber, int pointsRequired, Reward[] rewards)
+    {
+        this.pointsRequired = pointsRequired;
+        this._tierNumber = tierNumber;
+        this.isCompleted = false;
+        this.rewards = rewards;
     }
 }

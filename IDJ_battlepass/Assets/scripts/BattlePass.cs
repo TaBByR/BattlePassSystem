@@ -4,48 +4,46 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class BattlePass : MonoBehaviour
+public static class BattlePass
 {
-    public int amountOfTiers;
-    public bool generateWithRewards;
-    public Sprite[] rewards;
-    
-    public static int page = 0;
-    private List<MissionCollection> missionCollections = new List<MissionCollection>();
-    private int playerPoints;
+    public static int playerPoints;
+    public static Dictionary<int, Tier> tiers = new Dictionary<int, Tier>();
 
-    private void Start()
+    public static void SetPlayerPoints(int points)
     {
-        playerPoints = 0;
-        if (generateWithRewards)
+        playerPoints = points;
+
+        int tempPoints = points;
+
+        for (int i = 0; i < tiers.Count; i++)
         {
-            GenerateTiers(rewards);
-            PopulatePass();
-        }
-        else
-        {
-            GenerateTiers();
-            PopulatePass();
+            tempPoints -= tiers[i].pointsRequired;
+
+            if (tempPoints - tiers[i].pointsRequired >= 0)
+                tiers[i].isCompleted = true; 
+            else
+                tiers[i].isCompleted = false;
         }
     }
 
-    private void GenerateTiers()
+    public static void AddTierAt(int position, Tier tierToAdd)
     {
-        for (int i = 0; i < amountOfTiers; i++)
+        for (int i = tiers.Count - 1; i >= position; i--)
         {
-            new Tier(i+1);
+            Tier tierToUpdate = tiers[i];
+            tierToUpdate.tierNumber++;
+
+            tiers.Remove(i);
+            tiers.Add(i + 1, tierToUpdate);
         }
+
+        tiers.Add(position, tierToAdd);
+
+        SetPlayerPoints(playerPoints);
     }
 
-    private void GenerateTiers(Sprite[] r)
-    {
-        for (int i = 0; i < amountOfTiers; i++)
-        {
-            new Tier(i + 1, r[i]);
-        }
-    }
 
-    private void PopulatePass()
+    /*private void PopulatePass()
     {
         GameObject[] TierImage = GameObject.FindGameObjectsWithTag("TierImage");
         GameObject[] TierText = GameObject.FindGameObjectsWithTag("TierText");
@@ -55,7 +53,7 @@ public class BattlePass : MonoBehaviour
             TierText[i].GetComponent<TextMeshProUGUI>().text = Tier.tiers[i + page * 5].tierNumber.ToString();
             TierImage[i].GetComponent<Image>().sprite = Tier.tiers[i + page * 5].reward;
         }
-
+        
     }
 
     public void NextPage()
@@ -71,5 +69,5 @@ public class BattlePass : MonoBehaviour
             page--;
             PopulatePass();
         }
-    }
+    }*/
 }
