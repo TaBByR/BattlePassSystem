@@ -7,7 +7,7 @@ public class Tier
     private int _tierNumber;
     private bool _isCompleted;
     private int _pointsRequired;
-    public Reward[] rewards;
+    public List<Reward> rewards;
 
     public int tierNumber
     {
@@ -43,11 +43,21 @@ public class Tier
         this.isCompleted = false;
     }
 
-    public Tier(int tierNumber, int pointsRequired, Reward[] rewards)
+    public Tier(int tierNumber, int pointsRequired, List<Reward> rewards)
     {
         this.pointsRequired = pointsRequired;
         this._tierNumber = tierNumber;
         this.isCompleted = false;
         this.rewards = rewards;
+    }
+
+    public void AddReward(Reward newReward)
+    {
+        rewards.Add(newReward);
+    }
+
+    public void RemoveReward(int index)
+    {
+        rewards.RemoveAt(index);
     }
 }

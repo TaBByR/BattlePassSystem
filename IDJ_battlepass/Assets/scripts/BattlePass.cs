@@ -9,11 +9,9 @@ public static class BattlePass
     public static int playerPoints;
     public static Dictionary<int, Tier> tiers = new Dictionary<int, Tier>();
 
-    public static void SetPlayerPoints(int points)
+    public static void CalculateProgression()
     {
-        playerPoints = points;
-
-        int tempPoints = points;
+        int tempPoints = playerPoints;
 
         for (int i = 0; i < tiers.Count; i++)
         {
@@ -39,9 +37,24 @@ public static class BattlePass
 
         tiers.Add(position, tierToAdd);
 
-        SetPlayerPoints(playerPoints);
+        CalculateProgression();
     }
 
+    public static void RemoveTierAt(int position)
+    {
+        tiers.Remove(position);
+
+        for (int i = position + 1; i < tiers.Count + 1; i++)
+        {
+            Tier tierToUpdate = tiers[i];
+            tierToUpdate.tierNumber--;
+
+            tiers.Remove(i);
+            tiers.Add(i - 1, tierToUpdate);
+        }
+
+        CalculateProgression();
+    }
 
     /*private void PopulatePass()
     {
