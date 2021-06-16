@@ -7,6 +7,9 @@ TagManager:
   - manager
   - TierImage
   - TierText
+  - FreeTierImage
+  - stateImage
+  - PointsRequired
   layers:
   - Default
   - TransparentFX
@@ -14,8 +17,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - PremiumTier
+  - FreeTier
   - 
   - 
   - 

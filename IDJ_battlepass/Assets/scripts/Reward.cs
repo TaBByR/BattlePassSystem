@@ -5,8 +5,8 @@ using UnityEngine;
 public class Reward
 {
     private bool _isFree;
-    private List<Sprite> rewardImages;
-    private List<GameObject> rewardObjects;
+    private List<Sprite> _rewardImages;
+    private List<GameObject> _rewardObjects;
     private string _rewardName, _rewardDescription;
 
     public string rewardName
@@ -36,6 +36,16 @@ public class Reward
         }
     }
 
+    public List<Sprite> rewardImages
+    {
+        get => _rewardImages;
+    }
+
+    public List<GameObject> rewardObjects
+    {
+        get => _rewardObjects;
+    }
+
     public Reward(bool isFree)
     {
         this.isFree = isFree;
@@ -48,15 +58,15 @@ public class Reward
 
     public Reward(bool isFree, string rewardName, List<Sprite> rewardImages, List<GameObject> rewardObjects) : this(isFree, rewardName)
     {
-        this.rewardImages = rewardImages;
-        this.rewardObjects = rewardObjects;
+        this._rewardImages = rewardImages;
+        this._rewardObjects = rewardObjects;
     }
 
     public Reward(bool isFree, string rewardName, List<Sprite> rewardImages, List<GameObject> rewardObjects, string rewardDescription):this(isFree, rewardName)
     {
         this.rewardDescription = rewardDescription;
-        this.rewardImages = rewardImages;
-        this.rewardObjects = rewardObjects;
+        this._rewardImages = rewardImages;
+        this._rewardObjects = rewardObjects;
     }
 
     public void AddSprite(Sprite newImage)

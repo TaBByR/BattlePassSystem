@@ -6,8 +6,13 @@ using TMPro;
 
 public static class BattlePass
 {
-    public static int playerPoints;
+    private static int _playerPoints;
     public static Dictionary<int, Tier> tiers = new Dictionary<int, Tier>();
+
+    public static int playerPoints
+    {
+        get => _playerPoints;
+    } 
 
     public static void CalculateProgression()
     {
@@ -17,11 +22,54 @@ public static class BattlePass
         {
             tempPoints -= tiers[i].pointsRequired;
 
-            if (tempPoints - tiers[i].pointsRequired >= 0)
+            if (tempPoints >= 0)
                 tiers[i].isCompleted = true; 
             else
                 tiers[i].isCompleted = false;
         }
+    }
+
+    public static int GetNumberOfTiersUnlocked()
+    {
+        int NumberOfTiersUnlocked = 0;
+
+        for (int i = 0; i < tiers.Count; i++)
+        {
+            if (tiers[i].isCompleted == true)
+                NumberOfTiersUnlocked++;
+        }
+
+        return NumberOfTiersUnlocked;
+    }
+
+    public static int GetPointsRequired(int tier)
+    {
+        int pointsRequired = 0;
+
+        for (int i = 0; i <= tier; i++)
+        {
+            pointsRequired += tiers[i].pointsRequired;
+        }
+
+        return pointsRequired;
+    }
+
+    public static void AddPointsToPlayer(int points)
+    {
+        if(points > 0)
+            _playerPoints += points;
+
+        CalculateProgression();
+        GetNumberOfTiersUnlocked();
+    }
+
+    public static void SetPlayerPoints(int points)
+    {
+        if (points > 0)
+            _playerPoints = points;
+
+        CalculateProgression();
+        GetNumberOfTiersUnlocked();
     }
 
     public static void AddTierAt(int position, Tier tierToAdd)
@@ -55,32 +103,4 @@ public static class BattlePass
 
         CalculateProgression();
     }
-
-    /*private void PopulatePass()
-    {
-        GameObject[] TierImage = GameObject.FindGameObjectsWithTag("TierImage");
-        GameObject[] TierText = GameObject.FindGameObjectsWithTag("TierText");
-
-        for (int i = 0; i < TierText.Length; i++)
-        {
-            TierText[i].GetComponent<TextMeshProUGUI>().text = Tier.tiers[i + page * 5].tierNumber.ToString();
-            TierImage[i].GetComponent<Image>().sprite = Tier.tiers[i + page * 5].reward;
-        }
-        
-    }
-
-    public void NextPage()
-    {
-        page++;
-        PopulatePass();
-    }
-
-    public void PreviousPage()
-    {
-        if (page > 0)
-        {
-            page--;
-            PopulatePass();
-        }
-    }*/
 }

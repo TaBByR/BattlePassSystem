@@ -7,7 +7,7 @@ public class Tier
     private int _tierNumber;
     private bool _isCompleted;
     private int _pointsRequired;
-    public List<Reward> rewards;
+    public List<Reward> rewards = new List<Reward>();
 
     public int tierNumber
     {
