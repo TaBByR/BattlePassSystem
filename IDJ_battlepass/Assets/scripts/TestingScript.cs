@@ -16,29 +16,45 @@ public class TestingScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GeneratePass(13);
+        GeneratePass(70);
         BattlePass.SetPlayerPoints(30);
-
-        BattlePass.AddTierAt(3, new Tier(3+1, (int)Random.Range(1,11)));
-
-        for (int i = 0; i < BattlePass.tiers.Count; i++)
-        {
-            Debug.Log("Estado do tier " + BattlePass.tiers[i].tierNumber + ": " + BattlePass.tiers[i].isCompleted + ". Eram precisos " + BattlePass.tiers[i].pointsRequired + " pontos para completar.");
-        }
-
-        BattlePass.RemoveTierAt(5);
-
-        for (int i = 0; i < BattlePass.tiers.Count; i++)
-        {
-            Debug.Log("Estado do tier " + BattlePass.tiers[i].tierNumber + ": " + BattlePass.tiers[i].isCompleted + ". Eram precisos " + BattlePass.tiers[i].pointsRequired + " pontos para completar.");
-        }
-
         BattlePass.CalculateProgression();
-
-        BattlePass.AddPointsToPlayer(10);
 
         rewardMaker();
         AtributeRewardsToTiers();
+        PopulatePass();
+
+        for (int i = 0; i < BattlePass.tiers.Count; i++)
+        {
+            Debug.Log("Estado do tier " + BattlePass.tiers[i].tierNumber + ": " + BattlePass.tiers[i].isCompleted + ". Eram precisos " + BattlePass.tiers[i].pointsRequired + " pontos para completar.");
+        }
+
+        // BattlePass.AddPointsToPlayer(30);
+
+        // BattlePass.SetPlayerPoints(10);
+
+        /*
+        Tier t = new Tier(2 + 1, 20);
+        t.AddReward(rewardList[0]);
+        t.AddReward(rewardList[1]);
+        t.rewards[0].isFree = false;
+        t.rewards[1].isFree = true;
+        BattlePass.AddTierAt(2, t);
+        */
+
+        /*
+        BattlePass.tiers[2].rewards[0].rewardName = "Recompensa 1";
+        BattlePass.tiers[2].rewards[1].rewardName = "Recompensa 2";
+        BattlePass.tiers[2].rewards[0].rewardDescription = "Esta é a recompensa 1";
+        BattlePass.tiers[2].rewards[1].rewardDescription = "Esta é a recompensa 2";
+        Debug.Log(GetRewardsInformation(2));
+        */
+
+        //BattlePass.tiers[2].pointsRequired = 100;
+
+        //BattlePass.RemoveTierAt(2);
+
+
         PopulatePass();
     }
 
@@ -156,5 +172,18 @@ public class TestingScript : MonoBehaviour
             page--;
             PopulatePass();
         }
+    }
+
+    string GetRewardsInformation(int tierIndex)
+    {
+        string returnString = "O tier " + BattlePass.tiers[tierIndex].tierNumber + " tem as seguintes recompensas: \n";
+
+        for (int i = 0; i < BattlePass.tiers[tierIndex].rewards.Count; i++)
+        {
+            returnString += "Nome : " + BattlePass.tiers[tierIndex].rewards[i].rewardName;
+            returnString += ". Descrição: " + BattlePass.tiers[tierIndex].rewards[i].rewardDescription + "\n";
+        }
+
+        return returnString;
     }
 }
